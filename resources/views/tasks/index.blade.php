@@ -1,53 +1,76 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>
-            {{ __('Tasks') }} [by {{ auth()->user()->name }}]
-        </h2>
+        <div class="text-center my-4">
+            <h2 class="text-2xl font-semibold text-gray-800 leading-tight">
+                {{ __('Tasks') }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+                by {{ auth()->user()->name }}
+            </p>
+        </div>
     </x-slot>
 
-    <div>
-        <div>
-            <a href="{{ route('tasks.create') }}">{{ __('Add Task') }}</a>
-        </div>
-        <table class="table-auto border-collapse border border-gray-400 w-full">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-400 px-4 py-2">ID</th>
-                    <th class="border border-gray-400 px-4 py-2">Title</th>
-                    <th class="border border-gray-400 px-4 py-2">Status</th>
-                    <th class="border border-gray-400 px-4 py-2">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($tasks as $task)
-                <tr>
-                    <td class="border border-gray-400 px-4 py-2">{{ $task->id }}</td>
-                    <td class="border border-gray-400 px-4 py-2">{{ $task->title }}</td>
-                    <td class="border border-gray-400 px-4 py-2">
-                        <span @class(
-                        [
-                                'px-2 py-1 rounded text-xs',
-                                'bg-yellow-100 text-yellow-800' => $task->status === \App\Enums\TaskStatus::InProgress,
-                                'bg-green-100 text-green-800' => $task->status === \App\Enums\TaskStatus::Completed,
-                                'bg-blue-100 text-blue-800' => $task->status === \App\Enums\TaskStatus::OnHold,
-                                'bg-red-100 text-red-800' => $task->status === \App\Enums\TaskStatus::Dropped,
-                                'bg-orange-100 text-orange-800' => $task->status === \App\Enums\TaskStatus::PlanToDo,
-                            ])>
-                            {{ \App\Enums\TaskStatus::labels()[$task->status->value] ?? ucfirst($task->status->value) }}
-                        </span>
-                    </td>
-                    <td class="border border-gray-400 px-4 py-2">
-                        <a href="{{ route('tasks.edit', $task) }}">Edit</a>
-                        <form action="{{ route('tasks.destroy', $task) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
+            <!-- Add Task Button -->
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('tasks.create') }}"
+                   class="inline-block bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition">
+                    {{ __('Add Task') }}
+                </a>
+            </div>
+
+            <!-- Tasks Table -->
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach ($tasks as $task)
+                            <tr>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $task->id }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $task->title }}</td>
+                                <td class="px-6 py-4">
+                                    <span @class([
+                                        'px-2 py-1 rounded-full text-xs font-semibold',
+                                        'bg-yellow-100 text-yellow-800' => $task->status === \App\Enums\TaskStatus::InProgress,
+                                        'bg-green-100 text-green-800' => $task->status === \App\Enums\TaskStatus::Completed,
+                                        'bg-blue-100 text-blue-800' => $task->status === \App\Enums\TaskStatus::OnHold,
+                                        'bg-red-100 text-red-800' => $task->status === \App\Enums\TaskStatus::Dropped,
+                                        'bg-orange-100 text-orange-800' => $task->status === \App\Enums\TaskStatus::PlanToDo,
+                                    ])>
+                                        {{ \App\Enums\TaskStatus::labels()[$task->status->value] ?? ucfirst($task->status->value) }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm space-x-2">
+                                    <a href="{{ route('tasks.edit', $task) }}"
+                                       class="text-blue-600 hover:text-blue-800 font-medium">
+                                        Edit
+                                    </a>
+
+                                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="text-red-600 hover:text-red-800 font-medium"
+                                                onclick="return confirm('Are you sure you want to delete this task?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </x-app-layout>

@@ -14,7 +14,6 @@
         <div>
             <div>
                 <a href="/">
-                    Logo
                     {{-- <x-application-logo /> --}}
                 </a>
             </div>
