@@ -37,7 +37,7 @@
                     @foreach (\App\Enums\TaskStatus::cases() as $status)
                     <option value="{{ $status->value }}" @selected(old('status', $task->status->value) ===
                         $status->value)>
-                        {{ ucfirst($status->value) }}
+                        {{ ucfirst($status->label()) }}
                     </option>
                     @endforeach
                 </select>

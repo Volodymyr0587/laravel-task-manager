@@ -33,7 +33,7 @@
                 <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                 <select name="status" id="status" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2">
                     @foreach (\App\Enums\TaskStatus::cases() as $status)
-                    <option value="{{ $status->value }}">{{ ucfirst($status->value) }}</option>
+                    <option value="{{ $status->value }}">{{ ucfirst($status->label()) }}</option>
                     @endforeach
                 </select>
                 @error('status')
