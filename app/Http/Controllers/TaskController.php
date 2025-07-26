@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = auth()->user()->tasks()->paginate(5);
+        return view('tasks.index', ['tasks' => $tasks]);
     }
 
     /**
@@ -21,7 +23,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -29,7 +31,11 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $task = auth()->user()->tasks()->create($validatedData);
+
+        return to_route('tasks.index')->with('message', "$task->title create successfully");
     }
 
     /**
@@ -37,7 +43,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        Gate::authorize('editTask', $task);
+
+        return view('tasks.show', ['task' => $task]);
     }
 
     /**
@@ -45,7 +53,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        Gate::authorize('editTask', $task);
+
+        return view('tasks.edit', ['task' => $task]);
     }
 
     /**
@@ -53,7 +63,13 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        Gate::authorize('editTask', $task);
+
+        $validatedData = $request->validated();
+
+        $task->update($validatedData);
+
+        return to_route('tasks.show', $task)->with('message', "$task->title update successfully");
     }
 
     /**
@@ -61,6 +77,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+         Gate::authorize('editTask', $task);
+
+         $task->delete();
+
+         return to_route('tasks.index')->with('message', "$task->title deleted successfully");
     }
 }
