@@ -8,7 +8,7 @@
     </x-slot>
 
     <div>
-        <form action="{{ route('tasks.store') }}" method="POST" class="max-w-md mx-auto p-4 border rounded">
+        <form action="{{ route('tasks.store') }}" method="POST" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @csrf
 
             <div class="mb-4">
@@ -41,9 +41,11 @@
                 @enderror
             </div>
 
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                Submit
-            </button>
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Submit
+                </button>
+            </div>
         </form>
     </div>
 </x-app-layout>
