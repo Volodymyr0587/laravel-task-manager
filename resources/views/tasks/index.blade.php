@@ -36,7 +36,11 @@
                         @foreach ($tasks as $task)
                             <tr>
                                 <td class="px-6 py-4 text-sm text-gray-900">{{ $task->id }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-900">{{ $task->title }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <a href="{{ route('tasks.show', $task) }}" class="text-blue-600 hover:text-blue-800 font-medium">
+                                        {{ $task->title }}
+                                    </a>
+                                </td>
                                 <td class="px-6 py-4">
                                     <span @class([
                                         'px-2 py-1 rounded-full text-xs font-semibold',
