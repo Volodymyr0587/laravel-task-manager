@@ -75,6 +75,9 @@
                 </table>
             </div>
 
+            <div class="my-4">
+                {{ $tasks->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>
