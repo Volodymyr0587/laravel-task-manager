@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->enum('status', TaskStatus::values())->default(TaskStatus::PlanToDo->value);
             $table->timestamps();
         });
