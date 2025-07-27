@@ -13,13 +13,36 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Add Task Button -->
-            <div class="mb-4 flex justify-end">
+            <!-- Search and Add Task Button -->
+            {{-- <div class="mb-4 flex justify-between">
+                <form method="GET" action="{{ route('tasks.index') }}" class="mb-4">
+                    <input type="text" name="search" value="{{ old('search', $search) }}"
+                        placeholder="Search by title or description"
+                        class="border border-gray-300 px-4 py-2 rounded w-full md:w-1/3" />
+                </form>
+
                 <a href="{{ route('tasks.create') }}"
                    class="inline-block bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition">
                     {{ __('Add Task') }}
                 </a>
+            </div> --}}
+
+            <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <form method="GET" action="{{ route('tasks.index') }}" class="w-full md:w-1/2">
+                    <input type="text" name="search" value="{{ old('search', $search) }}"
+                        placeholder="Search by title or description"
+                        class="w-full border border-gray-300 px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </form>
+
+                <div class="text-right">
+                    <a href="{{ route('tasks.create') }}"
+                    class="inline-block bg-blue-600 text-white text-sm px-6 py-2 rounded-md shadow hover:bg-blue-700 transition duration-200">
+                        {{ __('Add Task') }}
+                    </a>
+                </div>
             </div>
+
+
 
             <!-- Tasks Table -->
             <div class="overflow-x-auto bg-white shadow-md rounded-lg">

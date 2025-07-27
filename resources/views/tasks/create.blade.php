@@ -45,7 +45,7 @@
             </div>
 
             <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                <button type="submit" class="inline-block bg-blue-600 text-white text-sm px-6 py-2 rounded-md shadow hover:bg-blue-700 transition duration-200">
                     Submit
                 </button>
             </div>

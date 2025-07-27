@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
@@ -24,6 +25,18 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    #[Scope]
+    public function search($query, $term)
+    {
+        $term = "%{$term}%";
+
+        $query->where(function ($query) use ($term) {
+            $query->where('title', 'like', $term)
+                ->orWhere('description', 'like', $term);
+        });
+    }
+
 
     protected $casts = [
         'status' => TaskStatus::class,

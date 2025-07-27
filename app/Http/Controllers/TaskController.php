@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
@@ -12,10 +13,17 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = auth()->user()->tasks()->paginate(5);
-        return view('tasks.index', ['tasks' => $tasks]);
+        $search = $request->input('search');
+
+        $tasks = auth()->user()
+            ->tasks()
+            ->search($search)
+            ->paginate(5)
+            ->withQueryString(); // Keeps search term in pagination links
+
+        return view('tasks.index', ['tasks' => $tasks, 'search' => $search]);
     }
 
     /**
