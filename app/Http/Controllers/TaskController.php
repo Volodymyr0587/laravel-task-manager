@@ -16,14 +16,16 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $status = $request->input('status');
 
         $tasks = auth()->user()
             ->tasks()
             ->search($search)
+            ->filterByStatus($status)
             ->paginate(5)
             ->withQueryString(); // Keeps search term in pagination links
 
-        return view('tasks.index', ['tasks' => $tasks, 'search' => $search]);
+        return view('tasks.index', ['tasks' => $tasks, 'search' => $search, 'status' => $status]);
     }
 
     /**

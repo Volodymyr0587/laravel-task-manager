@@ -37,6 +37,15 @@ class Task extends Model
         });
     }
 
+    #[Scope]
+    public function filterByStatus($query, $status)
+    {
+        if ($status) {
+            $query->where('status', $status);
+        }
+    }
+
+
 
     protected $casts = [
         'status' => TaskStatus::class,
