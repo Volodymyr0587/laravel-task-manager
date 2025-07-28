@@ -7,6 +7,8 @@
             <p class="text-sm text-gray-500 mt-1">
                 by {{ auth()->user()->name }}
             </p>
+
+            <x-flash-message />
         </div>
     </x-slot>
 

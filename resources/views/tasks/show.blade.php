@@ -15,6 +15,8 @@
                 {{ \App\Enums\TaskStatus::labels()[$task->status->value] ?? ucfirst($task->status->value) }}
             </span>
         </div>
+
+        <x-flash-message />
     </x-slot>
 
     <div class="py-6">
